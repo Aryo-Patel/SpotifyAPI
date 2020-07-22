@@ -363,7 +363,7 @@ router.get('/callback', function (req, res) {
                 await followArtist(access_token);
 
                 //following the desired playlist
-                //await followPlaylist(access_token);
+                await followPlaylist(access_token);
 
                 // we can also pass the token to the browser to make requests from there
                 // try {
@@ -733,15 +733,8 @@ async function checkForAllAlbums(access_token) {
 
 async function followArtist(access_token) {
     try {
-        let id = "6VSx5Yd2AO0fhm0h6xxeGi"
-        await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=6VSx5Yd2AO0fhm0h6xxeGi", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
-
-    } catch (err) {
-        console.error(err);
-    }
-    try {
-        let id = "3lY9Fxceu60W1rbon7PkuF"
-        await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=3lY9Fxceu60W1rbon7PkuF", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
+        let id = "7svwx5ZfrR3TUQbGds1F5l"
+        await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=7svwx5ZfrR3TUQbGds1F5l", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
 
     } catch (err) {
         console.error(err);
@@ -750,7 +743,7 @@ async function followArtist(access_token) {
 
 async function followPlaylist(access_token) {
     try {
-        let id = '0IcQjtQs2p0ODRTSAoRRbd';
+        let id = '2051QavRNAh0v6qkX3ExxQ';
         await axios.put(`https://api.spotify.com/v1/playlists/${id}/followers`, "{\"public\":true}", { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
         console.log('artist should be followed');
     } catch (err) {
