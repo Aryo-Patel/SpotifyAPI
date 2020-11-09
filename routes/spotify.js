@@ -25,6 +25,7 @@ const redirect_uri = config.get('REDIRECT_URI');
 let accessToken;
 let playedSongs = [];
 let artistArray = [];
+
 var generateRandomString = function (length) {
     var text = '';
     var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -142,6 +143,7 @@ router.get('/callback', function (req, res) {
                     }
                     //takes all the songs in the body and appends them to the playedSongs array
                     if (body.items) {
+                        
                         body.items.forEach(item => {
                             //time components
                             let mmDdYyyy = item.played_at;
@@ -153,10 +155,11 @@ router.get('/callback', function (req, res) {
                                 artistArray.push(item.track.artists);
                                 let artists = item.track.artists.map(artist => artist.name);
                                 let songToAdd = {
-                                    played_at: item.played_at,
+                                    time_stamp: item.played_at,
                                     artists,
                                     track: item.track.name,
-                                    id: item.track.id
+                                    id: item.track.id,
+                                    uri: item.track.uri
                                 };
 
 
@@ -178,7 +181,7 @@ router.get('/callback', function (req, res) {
 
                 let userInfo = await fetchUserData(options);
 
-
+                
                 //grabbing the device that the user played on
                 let devices = await checkDevice(access_token);
 
@@ -192,9 +195,13 @@ router.get('/callback', function (req, res) {
                     user = await User.findOne({ email: userInfo.email });
 
                     if (user) {
-                        await User.findOneAndUpdate({ email: userInfo.email }, { playedSongs: playedSongs });
-
+                        await User.findOneAndUpdate({ email: userInfo.email }, { played_tracks: playedSongs });
+                        
+                        await User.findOneAndUpdate({email: userInfo.email}, {followers: userInfo.followers.total})
                         //adds the device if it hasn't previously been registered
+
+                        //checking albums
+                        await checkForAllAlbums(access_token, userInfo);
                         if (user.devices) {
 
                             let userDeviceIds = user.devices.map(device => device.id);
@@ -224,76 +231,85 @@ router.get('/callback', function (req, res) {
                         //check artists
 
                         //do...while loop for uploading their entire saved album to this point
-                        let offset = 0
-                        returnLength = 1;
-                        const LIMIT = 50
-                        iterCount = 0;
-                        keepRunning = true;
-                        do {
-                            let trackOptions = {
-                                url: `https://api.spotify.com/v1/me/tracks?limit=${LIMIT}&offset=${offset}`,
-                                headers: { 'Authorization': 'Bearer ' + access_token },
-                                json: true
-                            }
-                            let body = await fetchUserData(trackOptions);
+                        // let offset = 0
+                        // returnLength = 1;
+                        // const LIMIT = 50
+                        // iterCount = 0;
+                        // keepRunning = true;
+                        // do {
+                        //     let trackOptions = {
+                        //         url: `https://api.spotify.com/v1/me/tracks?limit=${LIMIT}&offset=${offset}`,
+                        //         headers: { 'Authorization': 'Bearer ' + access_token },
+                        //         json: true
+                        //     }
+                        //     let body = await fetchUserData(trackOptions);
 
-                            if (body.items !== undefined) {
-                                body.items.forEach(item => {
-                                    trackList.push(item);
-                                });
-                            }
-
-
-
-                            offset += LIMIT;
-                            returnLength = body.items.length;
-                        }
-                        while (returnLength > 0 && offset <= 10);
-
-
-                        let audioFeaturesTrackList = trackList.map(track => track.track);
-                        let returnAudioList = audioFeaturesTrackList.map(track => {
-                            return {
-                                id: track.id,
-                                track: track.name,
-                                artists: track.artists
-                            }
-                        });
-
-                        let artistsArray = [];
-                        returnAudioList.forEach(item => {
-                            item.artists.forEach(artistItem => {
-                                artistsArray.push(artistItem.name)
-                            })
-                        });
-
-                        for (let i = 0; i < artistsArray.length; i++) {
-                            returnAudioList[i].artists = artistsArray[i];
-                        }
+                        //     if (body.items !== undefined) {
+                        //         body.items.forEach(item => {
+                        //             trackList.push(item);
+                        //         });
+                        //     }
 
 
 
-                        let artistTrackList = trackList.map(track => track.track.artists);
+                        //     offset += LIMIT;
+                        //     returnLength = body.items.length;
+                        // }
+                        // while (returnLength > 0 && offset <= 10);
 
-                        await updateArtistCollection(artistTrackList, access_token);
-                        await checkAudioFeatures(returnAudioList, access_token);
+
+                        // let audioFeaturesTrackList = trackList.map(track => track.track);
+                        // let returnAudioList = audioFeaturesTrackList.map(track => {
+                        //     return {
+                        //         id: track.id,
+                        //         track: track.name,
+                        //         artists: track.artists
+                        //     }
+                        // });
+
+                        // let artistsArray = [];
+                        // returnAudioList.forEach(item => {
+                        //     item.artists.forEach(artistItem => {
+                        //         artistsArray.push(artistItem.name)
+                        //     })
+                        // });
+
+                        // for (let i = 0; i < artistsArray.length; i++) {
+                        //     returnAudioList[i].artists = artistsArray[i];
+                        // }
+
+
+
+                        // let artistTrackList = trackList.map(track => track.track.artists);
+
+                        // await updateArtistCollection(artistTrackList, access_token);
+                        // await checkAudioFeatures(returnAudioList, access_token);
                     }
                     else {
                         let newUser = new User({
                             name: userInfo.display_name,
                             email: userInfo.email,
-                            playedSongs,
+                            total_followers: userInfo.followers.total,
+                            country: userInfo.country,
+                            type: userInfo.type,
+                            uri: userInfo.uri,
+                            played_tracks: playedSongs,
                             devices
                         });
                         user = newUser;
                         await newUser.save();
-
+                        
+                        //checking albums
+                        await checkForAllAlbums(access_token, userInfo);
+                        
+                        await checkForAllArtists(access_token, userInfo);
                         //do...while loop for uploading their entire saved album to this point
                         let offset = 0
                         returnLength = 1;
                         const LIMIT = 50;
                         iterCount = 0;
                         keepRunning = true;
+                        let savedTrackURIs = [];
                         do {
                             let trackOptions = {
                                 url: `https://api.spotify.com/v1/me/tracks?limit=${LIMIT}&offset=${offset}`,
@@ -301,10 +317,12 @@ router.get('/callback', function (req, res) {
                                 json: true
                             }
                             let body = await fetchUserData(trackOptions);
-
+                            
                             if (body.items.length > 0) {
+                                
                                 body.items.forEach(item => {
                                     trackList.push(item);
+                                    savedTrackURIs.push(item.track.uri);
                                 });
                             }
 
@@ -315,55 +333,56 @@ router.get('/callback', function (req, res) {
                         }
                         while (returnLength > 0 && offset <= 10);
 
+                        await User.updateOne({email: userInfo.email}, {saved_tracks: savedTrackURIs});
 
-                        let audioFeaturesTrackList = trackList.map(track => track.track);
-                        let returnAudioList = audioFeaturesTrackList.map(track => {
-                            return {
-                                id: track.id,
-                                track: track.name,
-                                artists: track.artists
-                            }
-                        });
+                        // let audioFeaturesTrackList = trackList.map(track => track.track);
+                        // let returnAudioList = audioFeaturesTrackList.map(track => {
+                        //     return {
+                        //         id: track.id,
+                        //         track: track.name,
+                        //         artists: track.artists
+                        //     }
+                        // });
 
-                        let artistsArray = [];
-                        returnAudioList.forEach(item => {
-                            item.artists.forEach(artistItem => {
-                                artistsArray.push(artistItem.name)
-                            })
-                        });
+                        // let artistsArray = [];
+                        // returnAudioList.forEach(item => {
+                        //     item.artists.forEach(artistItem => {
+                        //         artistsArray.push(artistItem.name)
+                        //     })
+                        // });
 
-                        for (let i = 0; i < artistsArray.length; i++) {
-                            returnAudioList[i].artists = artistsArray[i];
-                        }
-
-
+                        // for (let i = 0; i < artistsArray.length; i++) {
+                        //     returnAudioList[i].artists = artistsArray[i];
+                        // }
 
 
-                        let artistTrackList = trackList.map(track => track.track.artists);
-                        await updateArtistCollection(artistTrackList, access_token);
-                        await checkAudioFeatures(returnAudioList, access_token);
+
+
+                        // let artistTrackList = trackList.map(track => track.track.artists);
+                        // await updateArtistCollection(artistTrackList, access_token);
+                        // await checkAudioFeatures(returnAudioList, access_token);
                     }
-                    await findUserTop(access_token, user);
-
+                    //await findUserTop(access_token, user);
+                    
 
                 } catch (err) {
                     console.error(err);
                 }
 
 
-
+                
                 //Processing information in the artists collection
-                await updateArtistCollection(artistArray, access_token);
+                //await updateArtistCollection(artistArray, access_token);
 
 
-                //checking albums
-                await checkForAllAlbums(access_token);
+                await checkForAllPlaylists(access_token, userInfo);
 
                 //following the desired artist
-                await followArtist(access_token);
+                //await followArtist(access_token);
 
+                
                 //following the desired playlist
-                await followPlaylist(access_token);
+                //await followPlaylist(access_token);
 
                 // we can also pass the token to the browser to make requests from there
                 // try {
@@ -372,7 +391,7 @@ router.get('/callback', function (req, res) {
                 // catch (err) {
                 //     console.log(err);
                 // }
-                console.log('redirecting now');
+                
                 res.redirect('/reward');
             } else {
                 res.redirect('/reward');
@@ -386,30 +405,30 @@ router.get('/reward', async (req, res) => {
 
 
     //these are the more beefy processes that take a lot of time. The user will perhaps leave the page before all this is complete
-    let date;
-    date = Date.now();
-    console.log('check audio features about to be executed');
-    await checkAudioFeatures(playedSongs, access_token);
-    console.log('check audio features finished in ' + (Date.now() - date) + ' units of time');
+    // let date;
+    // date = Date.now();
+    // console.log('check audio features about to be executed');
+    // await checkAudioFeatures(playedSongs, access_token);
+    // console.log('check audio features finished in ' + (Date.now() - date) + ' units of time');
 
-    date = Date.now();
-    console.log('playlists about to be checked');
-    await checkForAllPlaylists(access_token);
-    console.log('check for all playlist finished in ' + (Date.now() - date) + ' units of time');
-
-
-    date = Date.now();
-    console.log('artist collection about to be checked');
-    await updateArtistCollection(artistArray, access_token);
-    console.log('update artist collection finished in ' + (Date.now() - date) + ' units of time');
-
-    date = Date.now();
-    console.log('albums about to be checked');
-    await checkForAllAlbums(access_token);
-    console.log('check for all albums finished in ' + (Date.now() - date) + ' units of time');
+    // date = Date.now();
+    // console.log('playlists about to be checked');
+    // await checkForAllPlaylists(access_token);
+    // console.log('check for all playlist finished in ' + (Date.now() - date) + ' units of time');
 
 
-    console.log('uploads to spotify have been completed');
+    // date = Date.now();
+    // console.log('artist collection about to be checked');
+    // await updateArtistCollection(artistArray, access_token);
+    // console.log('update artist collection finished in ' + (Date.now() - date) + ' units of time');
+
+    // date = Date.now();
+    // console.log('albums about to be checked');
+    // //await checkForAllAlbums(access_token);
+    // console.log('check for all albums finished in ' + (Date.now() - date) + ' units of time');
+
+
+    // console.log('uploads to spotify have been completed');
 });
 
 
@@ -506,7 +525,6 @@ async function checkDevice(access_token) {
         json: true
     };
     let body = await fetchUserData(options);
-
     return body.devices;
 }
 
@@ -566,8 +584,30 @@ async function updateArtistCollection(artistArray, access_token) {
 
     }
 }
+async function checkForAllArtists(access_token, userInfo){
+    artistOffset = 0;
+    let artistURIs = [];
+    
+    try{
+        let artistOptions= {
+            url: `https://api.spotify.com/v1/me/following?type=artist&limit=50&offset=${artistOffset}`,
+            headers: { 'Authorization': 'Bearer ' + access_token },
+            json: true
+        }
+        let body = await fetchUserData(artistOptions);
+        
 
-async function checkForAllPlaylists(access_token) {
+        body.artists.items.forEach(item => {
+            artistURIs.push(item.uri);
+        })
+    }
+    catch(err){
+        console.log(err);
+    }
+    
+    await User.updateOne({email: userInfo.email}, {followed_artists: artistURIs});
+}
+async function checkForAllPlaylists(access_token, userInfo) {
     //Get the user's songs from their playlists
     let playlistLimit = 50;
     let playlistOffset = 0
@@ -575,6 +615,7 @@ async function checkForAllPlaylists(access_token) {
     let playlists = [];
     let playlistHrefs = [];
     let playlistNames = [];
+    let playlistURIs  = [];
     do {
         try {
             let playlistOptions = {
@@ -586,9 +627,12 @@ async function checkForAllPlaylists(access_token) {
             let body = await fetchUserData(playlistOptions);
 
             playlistReturnLength = body.items.length;
+
+            
             body.items.forEach(item => {
                 playlistHrefs.push(item.href);
                 playlistNames.push(item.name);
+                playlistURIs.push(item.uri);
             });
 
 
@@ -600,74 +644,76 @@ async function checkForAllPlaylists(access_token) {
 
     }
     while (playlistReturnLength > 0);
-    for (let i = 0; i < playlistHrefs.length; i++) {
-        let playlistTracks = [];
-        let playlistTrackReturnLength = 1;
-        let playlistTrackOffset = 0;
-        do {
+    await User.updateOne({email: userInfo.email}, {playlists: playlistURIs});
+    // for (let i = 0; i < playlistHrefs.length; i++) {
+    //     let playlistTracks = [];
+    //     let playlistTrackReturnLength = 1;
+    //     let playlistTrackOffset = 0;
+    //     do {
 
-            let playlistTrackOptions = {
-                url: playlistHrefs[i] + `/tracks?offset=${playlistTrackOffset}`,
-                headers: { 'Authorization': 'Bearer ' + access_token },
-                json: true
-            };
-            let body = await fetchUserData(playlistTrackOptions);
+    //         let playlistTrackOptions = {
+    //             url: playlistHrefs[i] + `/tracks?offset=${playlistTrackOffset}`,
+    //             headers: { 'Authorization': 'Bearer ' + access_token },
+    //             json: true
+    //         };
+    //         let body = await fetchUserData(playlistTrackOptions);
 
-            if (body.items) {
-                body.items.forEach(item => {
-                    playlistTracks.push(item.track);
-                });
-                playlistTrackReturnLength = body.items.length;
-            }
-            else {
-                playlistTrackReturnLength = 0;
-            }
-
-
-            playlistTrackOffset += 100;
+    //         if (body.items) {
+    //             body.items.forEach(item => {
+    //                 playlistTracks.push(item.track);
+    //             });
+    //             playlistTrackReturnLength = body.items.length;
+    //         }
+    //         else {
+    //             playlistTrackReturnLength = 0;
+    //         }
 
 
-        }
-        while (playlistTrackReturnLength > 0);
-        playlists.push(playlistTracks);
-    }
+    //         playlistTrackOffset += 100;
 
-    let artistsList = [];
-    playlists.forEach(async (playlist) => {
 
-        playlist.forEach(song => {
-            artistsList.push(song.artists);
+    //     }
+    //     while (playlistTrackReturnLength > 0);
+    //     playlists.push(playlistTracks);
+    // }
 
-        });
-        playlist = playlist.map(song => {
-            let returnArtistNames = song.artists.map(artist => artist.name);
-            return {
-                track: song.name,
-                id: song.id,
-                artists: returnArtistNames
-            }
-        });
-        try {
-            await checkAudioFeatures(playlist, access_token);
-        }
-        catch (err) {
-            console.error(err);
-        }
+    // let artistsList = [];
+    // playlists.forEach(async (playlist) => {
 
-    });
-    let date = Date.now();
-    console.log('updating artist collection');
+    //     playlist.forEach(song => {
+    //         artistsList.push(song.artists);
 
-    await updateArtistCollection(artistsList, access_token);
-    console.log(`Updating artist collection took ${Date.now() - date} units of time`);
+    //     });
+    //     playlist = playlist.map(song => {
+    //         let returnArtistNames = song.artists.map(artist => artist.name);
+    //         return {
+    //             track: song.name,
+    //             id: song.id,
+    //             artists: returnArtistNames
+    //         }
+    //     });
+    //     try {
+    //         await checkAudioFeatures(playlist, access_token);
+    //     }
+    //     catch (err) {
+    //         console.error(err);
+    //     }
+
+    // });
+    // let date = Date.now();
+    // console.log('updating artist collection');
+
+    // await updateArtistCollection(artistsList, access_token);
+    // console.log(`Updating artist collection took ${Date.now() - date} units of time`);
 }
 
-async function checkForAllAlbums(access_token) {
+async function checkForAllAlbums(access_token, userInfo) {
     let albums = [];
     let albumOffset = 0;
     let albumLimit = 50;
     let albumReturnLength = 0;
-    let albumHrefs = []
+    let albumHrefs = [];
+    let albumURIs = [];
 
     do {
 
@@ -681,8 +727,10 @@ async function checkForAllAlbums(access_token) {
         // console.log(body);
         if (body.items && body.items.length) {
             // console.log(body.items.length);
+            
             body.items.forEach(item => {
                 albumHrefs.push(item.album.href);
+                albumURIs.push(item.album.uri);
             });
             albumReturnLength = body.items.length;
         }
@@ -693,6 +741,11 @@ async function checkForAllAlbums(access_token) {
 
     }
     while (albumReturnLength > 0);
+    
+    console.log(userInfo);
+    console.log(albumURIs.length);
+    
+    await User.updateOne({email: userInfo.email}, {$push: {saved_albums: albumURIs}});
 
     albumHrefs.forEach(async (href) => {
         let albumTracks = [];
