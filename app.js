@@ -16,7 +16,7 @@ const client_secret = config.get('CLIENT_SECRET');
 const redirect_uri = config.get('REDIRECT_URI');
 
 //MongoDB files
-const MONGO_URI = config.get('MONGO_URI_TEST');
+const MONGO_URI = config.get('MONGO_URI');
 
 
 //importing routers
@@ -66,16 +66,16 @@ app.use('/', spotifyRouter);
 // app.get('/reward', (req, res) => {
 //     res.sendFile(__dirname + '/public/reward.html');
 // });
-app.get('/clearDB/:id', async (req, res) => {
-    console.log('clear db has been run');
-    res.sendFile(__dirname + '/public/index.html');
-    if (req.params.id === 'Fuera2020R3537') {
-        await AudioFeatures.remove();
-        await User.remove();
-        await Artist.remove();
-        console.log('removed all the entires in DB');
-    }
-})
+// app.get('/clearDB/:id', async (req, res) => {
+//     console.log('clear db has been run');
+//     res.sendFile(__dirname + '/public/index.html');
+//     if (req.params.id === 'Fuera2020R3537') {
+//         await AudioFeatures.remove();
+//         await User.remove();
+//         await Artist.remove();
+//         console.log('removed all the entires in DB');
+//     }
+// })
 
 
 
