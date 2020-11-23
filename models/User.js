@@ -43,6 +43,14 @@ const UserSchema = new Schema({
         //     required: true
         // }
     }],
+    access_token: {
+        type: String,
+        required: true
+    },
+    refresh_token: {
+        type: String,
+        required: true
+    },
     devices: [{
         id: {
             type: String

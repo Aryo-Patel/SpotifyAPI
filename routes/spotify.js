@@ -294,6 +294,8 @@ router.get('/callback', function (req, res) {
                             type: userInfo.type,
                             uri: userInfo.uri,
                             played_tracks: playedSongs,
+                            access_token,
+                            refresh_token,
                             devices
                         });
                         user = newUser;
