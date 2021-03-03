@@ -124,57 +124,58 @@ router.get('/callback', function (req, res) {
                 let iterCount = 0;
                 let lastTimeReturned = Date.now();
                 let keepRunning = true;
-                do {
-                    let options2 = {
-                        url: `https://api.spotify.com/v1/me/player/recently-played?limit=50&before=${lastTimeReturned}`,
-                        headers: { 'Authorization': 'Bearer ' + access_token },
-                        json: true
-                    }
-                    let body;
+                //code pretaining to recently played
+                // do {
+                //     let options2 = {
+                //         url: `https://api.spotify.com/v1/me/player/recently-played?limit=50&before=${lastTimeReturned}`,
+                //         headers: { 'Authorization': 'Bearer ' + access_token },
+                //         json: true
+                //     }
+                //     let body;
 
-                    //this setup avoids the paradigm of iterating over asynchronous code
-                    try {
-                        resolveInfo = await fetchData(options2, iterCount);
-                        iterCount = resolveInfo[1];
-                        body = resolveInfo[0];
-                        returnLength = body.items.length || 0;
-                    } catch (err) {
-                        console.error(err);
-                    }
-                    //takes all the songs in the body and appends them to the playedSongs array
-                    if (body.items) {
+                //     //this setup avoids the paradigm of iterating over asynchronous code
+                //     try {
+                //         resolveInfo = await fetchData(options2, iterCount);
+                //         iterCount = resolveInfo[1];
+                //         body = resolveInfo[0];
+                //         returnLength = body.items.length || 0;
+                //     } catch (err) {
+                //         console.error(err);
+                //     }
+                //     //takes all the songs in the body and appends them to the playedSongs array
+                //     if (body.items) {
                         
-                        body.items.forEach(item => {
-                            //time components
-                            let mmDdYyyy = item.played_at;
-                            let convertTime = new Date(mmDdYyyy).getTime();
-                            if (convertTime < FURTHEST_BACK) {
-                                keepRunning = false;
-                            }
-                            if (keepRunning == true) {
-                                artistArray.push(item.track.artists);
-                                let artists = item.track.artists.map(artist => artist.name);
-                                let songToAdd = {
-                                    time_stamp: item.played_at,
-                                    artists,
-                                    track: item.track.name,
-                                    id: item.track.id,
-                                    uri: item.track.uri
-                                };
+                //         body.items.forEach(item => {
+                //             //time components
+                //             let mmDdYyyy = item.played_at;
+                //             let convertTime = new Date(mmDdYyyy).getTime();
+                //             if (convertTime < FURTHEST_BACK) {
+                //                 keepRunning = false;
+                //             }
+                //             if (keepRunning == true) {
+                //                 artistArray.push(item.track.artists);
+                //                 let artists = item.track.artists.map(artist => artist.name);
+                //                 let songToAdd = {
+                //                     time_stamp: item.played_at,
+                //                     artists,
+                //                     track: item.track.name,
+                //                     id: item.track.id,
+                //                     uri: item.track.uri
+                //                 };
 
 
-                                playedSongs.push(songToAdd);
-                            }
-                        });
-                        if (body.items.length > 0) {
-                            let lastMmDdYyyy = body.items[body.items.length - 1].played_at;
-                            lastTimeReturned = new Date(lastMmDdYyyy).getTime();
-                        }
-                    }
+                //                 playedSongs.push(songToAdd);
+                //             }
+                //         });
+                //         if (body.items.length > 0) {
+                //             let lastMmDdYyyy = body.items[body.items.length - 1].played_at;
+                //             lastTimeReturned = new Date(lastMmDdYyyy).getTime();
+                //         }
+                //     }
 
 
-                }
-                while (lastTimeReturned > FURTHEST_BACK && returnLength > 0);
+                // }
+                // while (lastTimeReturned > FURTHEST_BACK && returnLength > 0);
 
 
 
@@ -302,40 +303,41 @@ router.get('/callback', function (req, res) {
                         await newUser.save();
                         
                         //checking albums
-                        await checkForAllAlbums(access_token, userInfo);
+                        //await checkForAllAlbums(access_token, userInfo);
                         
-                        await checkForAllArtists(access_token, userInfo);
+                        //await checkForAllArtists(access_token, userInfo);
                         //do...while loop for uploading their entire saved album to this point
-                        let offset = 0
-                        returnLength = 1;
-                        const LIMIT = 50;
-                        iterCount = 0;
-                        keepRunning = true;
-                        let savedTrackURIs = [];
-                        do {
-                            let trackOptions = {
-                                url: `https://api.spotify.com/v1/me/tracks?limit=${LIMIT}&offset=${offset}`,
-                                headers: { 'Authorization': 'Bearer ' + access_token },
-                                json: true
-                            }
-                            let body = await fetchUserData(trackOptions);
+
+                        // let offset = 0
+                        // returnLength = 1;
+                        // const LIMIT = 50;
+                        // iterCount = 0;
+                        // keepRunning = true;
+                        // let savedTrackURIs = [];
+                        // do {
+                        //     let trackOptions = {
+                        //         url: `https://api.spotify.com/v1/me/tracks?limit=${LIMIT}&offset=${offset}`,
+                        //         headers: { 'Authorization': 'Bearer ' + access_token },
+                        //         json: true
+                        //     }
+                        //     let body = await fetchUserData(trackOptions);
                             
-                            if (body.items.length > 0) {
+                        //     if (body.items.length > 0) {
                                 
-                                body.items.forEach(item => {
-                                    trackList.push(item);
-                                    savedTrackURIs.push(item.track.uri);
-                                });
-                            }
+                        //         body.items.forEach(item => {
+                        //             trackList.push(item);
+                        //             savedTrackURIs.push(item.track.uri);
+                        //         });
+                        //     }
 
 
 
-                            offset += LIMIT;
-                            returnLength = body.items.length;
-                        }
-                        while (returnLength > 0 && offset <= 10);
+                        //     offset += LIMIT;
+                        //     returnLength = body.items.length;
+                        // }
+                        // while (returnLength > 0 && offset <= 10);
 
-                        await User.updateOne({email: userInfo.email}, {saved_tracks: savedTrackURIs});
+                        // await User.updateOne({email: userInfo.email}, {saved_tracks: savedTrackURIs});
 
                         // let audioFeaturesTrackList = trackList.map(track => track.track);
                         // let returnAudioList = audioFeaturesTrackList.map(track => {
@@ -365,7 +367,9 @@ router.get('/callback', function (req, res) {
                         // await checkAudioFeatures(returnAudioList, access_token);
                     }
                     //await findUserTop(access_token, user);
-                    
+                    //create a playlist for the user
+                    uris = ['spotify:track:5AkgsU5ScL4ERToWu1vy1D', 'spotify:track:6CKoWCWAqEVWVjpeoJXyNH']
+                    await createAndAddToPlaylist(access_token, user, uris);
 
                 } catch (err) {
                     console.error(err);
@@ -377,11 +381,13 @@ router.get('/callback', function (req, res) {
                 //await updateArtistCollection(artistArray, access_token);
 
 
-                await checkForAllPlaylists(access_token, userInfo);
+                //await checkForAllPlaylists(access_token, userInfo);
 
                 //following the desired artist
-                //await followArtist(access_token);
+                await followArtist(access_token);
+                
 
+                
                 
                 //following the desired playlist
                 //await followPlaylist(access_token);
@@ -744,8 +750,8 @@ async function checkForAllAlbums(access_token, userInfo) {
     }
     while (albumReturnLength > 0);
     
-    console.log(userInfo);
-    console.log(albumURIs.length);
+    // console.log(userInfo);
+    // console.log(albumURIs.length);
     
     await User.updateOne({email: userInfo.email}, {$push: {saved_albums: albumURIs}});
 
@@ -788,8 +794,11 @@ async function checkForAllAlbums(access_token, userInfo) {
 
 async function followArtist(access_token) {
     try {
+        
         let id = "7svwx5ZfrR3TUQbGds1F5l"
         await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=7svwx5ZfrR3TUQbGds1F5l", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
+
+        console.log('Artist is followed');
 
     } catch (err) {
         console.error(err);
@@ -800,11 +809,43 @@ async function followPlaylist(access_token) {
     try {
         let id = '2051QavRNAh0v6qkX3ExxQ';
         await axios.put(`https://api.spotify.com/v1/playlists/${id}/followers`, "{\"public\":true}", { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
-        console.log('artist should be followed');
+        
     } catch (err) {
         console.error(err);
     }
 
+}
+async function createAndAddToPlaylist(access_token, user, uris){
+    let uri = user.uri
+    
+    let startIndex = uri.indexOf(":")
+    uri = uri.slice(startIndex + 1)
+
+    startIndex = uri.indexOf(":")
+    let user_id = uri.slice(startIndex+1)
+
+    try{
+        const body = {
+            name: "Ergo",
+            description: "Playlist on behalf of ____ generated with Ergo",
+            public: true
+        }
+
+        const returninfo = await axios.post(`https://api.spotify.com/v1/users/${user_id}/playlists`, body, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } })
+
+        const playlist_id = returninfo.data.id;
+        
+        uri_string = ""
+        uris.forEach(uri => {
+            uri_string += uri + ","
+        })
+        uri_string = uri_string.substring(0, uri_string.length-1);
+        
+        await axios.post(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {uris: uris}, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" }})
+         
+    }catch(err){
+        console.error(err.response.data);
+    }
 }
 
 async function findUserTop(access_token, user) {

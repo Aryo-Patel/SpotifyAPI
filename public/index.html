@@ -13,52 +13,42 @@
       rel="stylesheet"
       href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   </head>
 
   <body>
-    <section class="hero is-fuera is-fullheight">
-      <div class="hero-body has-text-centered">
+    <div class="hero is-fullheight is-dark has-background is-hidden-touch">
+      <img alt="hero-landing-web" class="hero-background is-transparent" src="images/hero-landing-web.jpg">
+      <img alt="quote-landing-web" class="is-quote" src="images/quote-landing-web.png">
+      <img alt="spz-landing-web" class="is-spz" src="images/spz-landing-web.png">
+      <div class="hero-body">
         <div class="container">
-          <img
-            src="/images/fuera-disc-berlino-top.png"
-            class="fuera-top-disc"
-          />
-          <img
-            src="/images/fuera-disc-berlino-bottom.png"
-            class="fuera-bottom-disc"
-          />
-          <div>
-            <img
-              src="/images/hero-index.png"
-              style="max-width: 50%;"
-              class="is-hidden-touch"
-            />
-            <img
-              src="/images/hero-index.png"
-              style="max-width: 100%;"
-              class="is-hidden-desktop"
-            />
-            <br />
-            <a href="/login" class="button is-rounded is-large is-hidden-touch">
-              <b
-                ><i class="fab fa-spotify" style="color: #1db954;"></i
-                >&nbsp&nbspSpotify | &nbspLogin →</b
-              >
-            </a>
-
-            <a
-              href="/login"
-              class="button is-rounded is-medium is-hidden-desktop"
-            >
-              <b
-                ><i class="fab fa-spotify" style="color: #1db954;"></i
-                >&nbsp&nbspSpotify | &nbspLogin →</b
-              >
-            </a>
-          </div>
+          <center>
+          <a href="/login" class="button is-rounded is-medium is-hidden-touch">
+            <b><i class="fab fa-spotify"></i>Continua con Spotify →</b>
+          </a>
+        </center>
         </div>
       </div>
-    </section>
+    </div>
+    
+    <!-- Mobile -->
+    <div class="hero is-fullheight is-dark has-background is-hidden-desktop">
+      <img alt="hero-landing-mobile" class="hero-background is-transparent" src="images/hero-landing-mobile.jpg">
+      <img alt="quote-landing-mobile" class="is-quote" style="max-width: 250px;" src="images/quote-landing-web.png">
+      <img alt="spz-landing-mobile" class="is-spz"  style="max-width: 45px;" src="images/spz-landing-web.png">
+      <div class="hero-body">
+        <div class="container">
+          <center>
+            <br><br>
+          <a href="/login" class="button is-rounded is-medium is-hidden-desktop">
+            <b><i class="fab fa-spotify"></i>Continua con Spotify →</b>
+          </a>
+        </center>
+        </div>
+      </div>
+    </div>
+    
     <!---
     <script id="user-profile-template" type="text/x-handlebars-template">
       <h1>
