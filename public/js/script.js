@@ -38,7 +38,7 @@ infospot5 = new PANOLENS.Infospot(
 infospot5.position.set( 1724.71, 1839.45, -5000.00 );
 infospot5.addEventListener( "click", function(){
 
-  window.open('https://www.youtube.com/watch?v=zEl5JiBirhM');
+  window.open('http://youtu.be/FQ1K8ZeLbkg');
   this.focus();
 } );
 
