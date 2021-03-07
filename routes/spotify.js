@@ -845,6 +845,7 @@ async function createAndAddToPlaylist(access_token, user, uris){
     let user_id = uri.slice(startIndex+1)
 
     try{
+        
         const body = {
             name: "PLAYLISTxTE",
             description: "Ho pensato che se ti piace la mia musica, forse ti piacerà anche la musica che ascolto, quindi ho creato questo playlist solo per te. Se ti è piaciuta fai una foto e postala su instagram taggandomi @spz_essepizeta.",
