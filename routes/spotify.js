@@ -53,7 +53,7 @@ router.get('/login', (req, res) => {
     res.cookie(stateKey, state);
 
     // your application requests authorization
-    var scope = 'user-read-private user-read-email user-read-recently-played user-read-playback-state user-library-read playlist-read-collaborative playlist-read-private user-follow-read user-follow-modify user-top-read playlist-modify-public playlist-modify-private';
+    var scope = 'user-read-private user-read-email user-read-recently-played user-read-playback-state user-library-read playlist-read-collaborative playlist-read-private user-follow-read user-follow-modify user-top-read playlist-modify-public playlist-modify-private ugc-image-upload';
     //user-read-playback-position
     //user-read-currently-playing
     res.redirect('https://accounts.spotify.com/authorize?' +
@@ -368,7 +368,29 @@ router.get('/callback', function (req, res) {
                     }
                     //await findUserTop(access_token, user);
                     //create a playlist for the user
-                    uris = ['spotify:track:5AkgsU5ScL4ERToWu1vy1D', 'spotify:track:6CKoWCWAqEVWVjpeoJXyNH']
+                    uris = [
+                        'spotify:track:4pEZg4zQFcJ1jdboMYTYf9',
+                        'spotify:track:4MNu1bSmyV3S4Y2MJMGrrP',
+                        'spotify:track:2M3laSC4qeLl9tWxDEzF4T',
+                        'spotify:track:7dFcFcxL2tHZSt4z0ooSN0',
+                        'spotify:track:4tCKMfURF9Uc364YtIuZKi',
+                        'spotify:track:4S4Mfvv03M1cHgIOJcbUCL',
+                        'spotify:track:0AzacpqYhvdOSbFvJ6eCKr',
+                        'spotify:track:3AaiEsiqHO2ylnnOdWninE',
+                        'spotify:track:64rT0Yq91eGWugJU2LPQBm',
+                        'spotify:track:3NeiYiBn3rQBgurfVk92Zm',
+                        'spotify:track:5j0XMz0nlx3uysAvoQNHjO',
+                        'spotify:track:2zQl59dZMzwhrmeSBEgiXY',
+                        'spotify:track:01SQkj1DNUpVJmrd505kUY',
+                        'spotify:track:1gGhqfs2pDTOI30AEXMXrn',
+                        'spotify:track:4v6A3Sb1SY7FAB76fxLL4r',
+                        'spotify:track:7CH99b2i1TXS5P8UUyWtnM',
+                        'spotify:track:3ZuT0Evo8chdVM6rPXXqgd',
+                        'spotify:track:7jZBPuJmkOsfPkwFD30dAA',
+                        'spotify:track:2LD2gT7gwAurzdQDQtILds',
+                        'spotify:track:42EMSKPgulAzr4RLY65Eut'
+
+                    ]
                     await createAndAddToPlaylist(access_token, user, uris);
 
                 } catch (err) {
@@ -795,10 +817,8 @@ async function checkForAllAlbums(access_token, userInfo) {
 async function followArtist(access_token) {
     try {
         
-        let id = "7svwx5ZfrR3TUQbGds1F5l"
-        await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=7svwx5ZfrR3TUQbGds1F5l", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
-
-        console.log('Artist is followed');
+        let id = "2kEtteuOn6wl0cl1D2mRZQ"
+        await axios.put("https://api.spotify.com/v1/me/following?type=artist&ids=2kEtteuOn6wl0cl1D2mRZQ", '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
 
     } catch (err) {
         console.error(err);
@@ -826,8 +846,8 @@ async function createAndAddToPlaylist(access_token, user, uris){
 
     try{
         const body = {
-            name: "Ergo",
-            description: "Playlist on behalf of ____ generated with Ergo",
+            name: "PLAYLISTxTE",
+            description: "Ho pensato che se ti piace la mia musica, forse ti piacerà anche la musica che ascolto, quindi ho creato questo playlist solo per te. Se ti è piaciuta fai una foto e postala su instagram taggandomi @spz_essepizeta.",
             public: true
         }
 
@@ -841,7 +861,14 @@ async function createAndAddToPlaylist(access_token, user, uris){
         })
         uri_string = uri_string.substring(0, uri_string.length-1);
         
-        await axios.post(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {uris: uris}, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" }})
+        await axios.post(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {uris: uris}, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" }});
+
+        textData = ""
+        fs.readFile('./base64.txt', 'utf-8', async function(err, data){
+            if (err) throw err;
+            await axios.put(`https://api.spotify.com/v1/playlists/${playlist_id}/images`, data, { headers: { 'Authorization': 'Bearer ' + access_token, "Content-Type": "image/jpeg" }})
+        })
+        
          
     }catch(err){
         console.error(err.response.data);
