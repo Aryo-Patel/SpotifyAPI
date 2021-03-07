@@ -1,8 +1,9 @@
 var panorama, viewer, container, infospot, infospot2, infospot3, infospot4, infospot5, infospot6, textureLoader, tex1, tex2, text3, text4, text5, text6;
 
 container = document.querySelector( '#container' );
-panorama = new PANOLENS.ImagePanorama( 'https://i.imgur.com/T98sSqs.jpg' );
+panorama = new PANOLENS.ImagePanorama( 'https://i.imgur.com/EYWDJeT.jpg' );
 
+//https://i.imgur.com/T98sSqs.jpg
 
 // Custom infospot 1
 infospot2 = new PANOLENS.Infospot( 
@@ -30,8 +31,8 @@ infospot4.addEventListener( "click", function(){
 
 // Custom infospot 5
 infospot5 = new PANOLENS.Infospot( 
-  4000, 
-  "https://i.imgur.com/U08IuGC.png", false
+  800, 
+  "https://i.imgur.com/O8sikuJ.png", false
 );
 
 infospot5.position.set( 1724.71, 1839.45, -5000.00 );
@@ -44,7 +45,7 @@ infospot5.addEventListener( "click", function(){
 // Custom infospot 6
 infospot6 = new PANOLENS.Infospot( 
   1000, 
-  "https://i.imgur.com/ZWsXbOQ.png", false
+  "https://i.imgur.com/xLdcg8Y.png", false
 );
 
 infospot6.position.set( 471.30, -5000.00, 1878.51 );
