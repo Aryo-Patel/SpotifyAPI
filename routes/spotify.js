@@ -845,6 +845,10 @@ async function createAndAddToPlaylist(access_token, user, uris){
     let user_id = uri.slice(startIndex+1)
 
     try{
+        const userPlaylists = await axios.get(`https://api.spotify.com/v1/users/${user_id}/playlists`, null, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } })
+
+        userPlaylists = userPlaylists.data;
+
         
         const body = {
             name: "PLAYLISTxTE",
