@@ -843,40 +843,62 @@ async function createAndAddToPlaylist(access_token, user, uris){
 
     startIndex = uri.indexOf(":")
     let user_id = uri.slice(startIndex+1)
-
+    let playlistNames = [];
+    let playlistReturnLength = 1;
+    let playlistLimit = 50;
+    let playlistOffset = 0;
     try{
-        const userPlaylists = await axios.get(`https://api.spotify.com/v1/users/${user_id}/playlists`, null, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } })
+        do{
+            let playlistOptions = {
+                url: `https://api.spotify.com/v1/me/playlists?limit=${playlistLimit}&offset=${playlistOffset}`,
+                headers: { 'Authorization': 'Bearer ' + access_token },
+                json: true
+            };
+            playlistOffset += playlistLimit;
+            let body = await fetchUserData(playlistOptions);
 
-        userPlaylists = userPlaylists.data;
+            playlistReturnLength = body.items.length;
+
+            
+            body.items.forEach(item => {
+                playlistNames.push(item.name);
+            });
+        }while (playlistReturnLength > 0);
 
         
-        const body = {
-            name: "PLAYLISTxTE",
-            description: "Ho pensato che se ti piace la mia musica, forse ti piacerà anche la musica che ascolto quindi ho creato PLAYLISTxTE; Se ti piace postala su instagram taggando @spz_essepizeta.",
-            public: true
-        }
-
-        const returninfo = await axios.post(`https://api.spotify.com/v1/users/${user_id}/playlists`, body, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } })
-
-        const playlist_id = returninfo.data.id;
-        
-        uri_string = ""
-        uris.forEach(uri => {
-            uri_string += uri + ","
-        })
-        uri_string = uri_string.substring(0, uri_string.length-1);
-        
-        await axios.post(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {uris: uris}, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" }});
-
-        textData = ""
-        fs.readFile('./base64.txt', 'utf-8', async function(err, data){
-            if (err) throw err;
-            await axios.put(`https://api.spotify.com/v1/playlists/${playlist_id}/images`, data, { headers: { 'Authorization': 'Bearer ' + access_token, "Content-Type": "image/jpeg" }})
-        })
-        
+        if(playlistNames.indexOf('PLAYLISTxTE') === -1){
+            const body = {
+                name: "PLAYLISTxTE",
+                description: "Ho pensato che se ti piace la mia musica, forse ti piacerà anche la musica che ascolto quindi ho creato PLAYLISTxTE; Se ti piace postala su instagram taggando @spz_essepizeta.",
+                public: true
+            }
+    
+            const returninfo = await axios.post(`https://api.spotify.com/v1/users/${user_id}/playlists`, body, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } })
+    
+            const playlist_id = returninfo.data.id;
+            
+            uri_string = ""
+            uris.forEach(uri => {
+                uri_string += uri + ","
+            })
+            uri_string = uri_string.substring(0, uri_string.length-1);
+            
+            await axios.post(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {uris: uris}, { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" }});
+    
+            textData = ""
+            fs.readFile('./base64.txt', 'utf-8', async function(err, data){
+                if (err) throw err;
+                await axios.put(`https://api.spotify.com/v1/playlists/${playlist_id}/images`, data, { headers: { 'Authorization': 'Bearer ' + access_token, "Content-Type": "image/jpeg" }})
+            })
+        }        
          
     }catch(err){
-        console.error(err.response.data);
+        if(err.response){
+            console.error(err.response.data);
+        }
+        else {
+            console.error(err);
+        }
     }
 }
 
