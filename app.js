@@ -86,6 +86,6 @@ let server = http.createServer(app);
 const PORT = process.env.PORT || 3000;
 //listening on port 3000 temporarily
 app.listen(PORT, () => {
-    //console.log('Listening on port ' + PORT);
+    console.log('Listening on port ' + PORT);
 
 });

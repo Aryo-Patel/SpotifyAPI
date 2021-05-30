@@ -1,66 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SPZ</title>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q7XK9TZK4P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-Q7XK9TZK4P');
-    </script>
-
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BANZAI - FRAH QUINTALE</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <link rel="stylesheet" href="style-custom.css">
   </head>
-
   <body>
-    <div class="hero is-fullheight is-dark has-background is-hidden-touch">
-      <img alt="hero-landing-web" class="hero-background is-transparent" src="images/hero-landing-web-bagliore.jpg">
-      <img alt="quote-landing-web" class="is-quote" src="images/quote-landing-web.png">
-      <img alt="spz-landing-web" class="is-spz" src="images/spz-landing-web.png">
-      <div class="hero-body">
-        <div class="container">
-          <center>
+     <div class="columns is-gapless full-height is-hidden-touch has-text-centered">
+  		<div class="column is-half is-greyish imgSwap" style="display: flex; flex-direction: column;">
+          <img src="images/banzai-logo-desktop.png">
+          <img src="images/cta-desktop.png" class="img1" style="position: absolute; bottom: 45%; max-width: 50%;">
           <a href="/login">
-            <img src="images/accedi.png" class="is-hidden-touch" style="width: 15vw;">
+            <img src="images/cta-desktop-hover.png" class="img2" style="position: absolute; bottom: 45%; max-width: 50%;">
           </a>
-        </center>
-        </div>
+          <p style="margin-top: auto;">
+            <a target="_blank" href="toc.html">Terms and Conditions</a> | <a target="_blank" href="privacy-policy.html">Privacy Policy</a>
+            <br>
+          </p>
+      </div>
+  		<div class="column is-half">
+        <img src="images/landing-frah-pic-desktop.jpg" class="has-image">
+  		</div>
+		</div>
+
+    <div class="columns is-gapless full-height is-hidden-desktop">
+      <div class="column" style="display: flex; flex-direction: column;">
+        <img src="images/landing-frah-pic-desktop.jpg" class="has-image">
+        <img src="images/banzai-logo-mobile.png" style="position: absolute; top: 0px">
+        <a href="/login">
+          <img src="images/cta-mobile.png" class="img1" style="position: absolute; bottom: 40%">
+        </a>
+        <p style="position: absolute; bottom: 5%; color: white; font-size: 13px; text-align: center;
+   width: 100%;">
+          <a target="_blank" href="toc.html">Terms and Conditions</a> | <a target="_blank" href="privacy-policy.html">Privacy Policy</a>
+        </p>
       </div>
     </div>
-    
-    <!-- Mobile -->
-    <div class="hero is-fullheight is-dark has-background is-hidden-desktop">
-      <img alt="hero-landing-mobile" class="hero-background is-transparent" src="images/hero-landing-mobile-bagliore.jpg">
-      <img alt="quote-landing-mobile" class="is-quote" style="max-width: 250px;" src="images/quote-landing-web.png">
-      <img alt="spz-landing-mobile" class="is-spz"  style="max-width: 45px;" src="images/spz-landing-web.png">
-      <div class="hero-body">
-        <div class="container">
-          <center>
-          <a href="/login">
-            <img src="images/accedi.png" class="is-hidden-desktop" style="width: 40vw;">
-          </a>
-        </center>
-        </div>
-      </div>
-    </div>
-    
-    <!---
+  </body>
+  </script>
+   <!---
     <script id="user-profile-template" type="text/x-handlebars-template">
       <h1>
         Logged in as {{display_name}}
@@ -144,92 +124,91 @@
       </dl>
     </script>
   -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-      (function () {
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
-        function getHashParams() {
-          var hashParams = {};
-          var e,
-            r = /([^&;=]+)=?([^&;]*)/g,
-            q = window.location.hash.substring(1);
-          while ((e = r.exec(q))) {
-            hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          console.log(hashParams);
-          return hashParams;
+  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script>
+    (function () {
+      /**
+       * Obtains parameters from the hash of the URL
+       * @return Object
+       */
+      function getHashParams() {
+        var hashParams = {};
+        var e,
+          r = /([^&;=]+)=?([^&;]*)/g,
+          q = window.location.hash.substring(1);
+        while ((e = r.exec(q))) {
+          hashParams[e[1]] = decodeURIComponent(e[2]);
         }
+        console.log(hashParams);
+        return hashParams;
+      }
 
-        var userProfileSource = document.getElementById("user-profile-template")
-            .innerHTML,
-          userProfileTemplate = Handlebars.compile(userProfileSource),
-          userProfilePlaceholder = document.getElementById("user-profile");
+      var userProfileSource = document.getElementById("user-profile-template")
+          .innerHTML,
+        userProfileTemplate = Handlebars.compile(userProfileSource),
+        userProfilePlaceholder = document.getElementById("user-profile");
 
-        var oauthSource = document.getElementById("oauth-template").innerHTML,
-          oauthTemplate = Handlebars.compile(oauthSource),
-          oauthPlaceholder = document.getElementById("oauth");
+      var oauthSource = document.getElementById("oauth-template").innerHTML,
+        oauthTemplate = Handlebars.compile(oauthSource),
+        oauthPlaceholder = document.getElementById("oauth");
 
-        var params = getHashParams();
+      var params = getHashParams();
 
-        var access_token = params.access_token,
-          refresh_token = params.refresh_token,
-          error = params.error;
+      var access_token = params.access_token,
+        refresh_token = params.refresh_token,
+        error = params.error;
 
-        if (error) {
-          console.log(params.error);
-          alert("There was an error during the authentication");
-        } else {
-          if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token,
-            });
+      if (error) {
+        console.log(params.error);
+        alert("There was an error during the authentication");
+      } else {
+        if (access_token) {
+          // render oauth info
+          oauthPlaceholder.innerHTML = oauthTemplate({
+            access_token: access_token,
+            refresh_token: refresh_token,
+          });
 
-            $.ajax({
-              url: "https://api.spotify.com/v1/me",
-              headers: {
-                Authorization: "Bearer " + access_token,
-              },
-              success: function (response) {
-                userProfilePlaceholder.innerHTML = userProfileTemplate(
-                  response
-                );
-
-                $("#login").hide();
-                $("#loggedin").show();
-              },
-            });
-          } else {
-            // render initial screen
-            $("#login").show();
-            $("#loggedin").hide();
-          }
-
-          document.getElementById("obtain-new-token").addEventListener(
-            "click",
-            function () {
-              $.ajax({
-                url: "/refresh_token",
-                data: {
-                  refresh_token: refresh_token,
-                },
-              }).done(function (data) {
-                access_token = data.access_token;
-                oauthPlaceholder.innerHTML = oauthTemplate({
-                  access_token: access_token,
-                  refresh_token: refresh_token,
-                });
-              });
+          $.ajax({
+            url: "https://api.spotify.com/v1/me",
+            headers: {
+              Authorization: "Bearer " + access_token,
             },
-            false
-          );
+            success: function (response) {
+              userProfilePlaceholder.innerHTML = userProfileTemplate(
+                response
+              );
+
+              $("#login").hide();
+              $("#loggedin").show();
+            },
+          });
+        } else {
+          // render initial screen
+          $("#login").show();
+          $("#loggedin").hide();
         }
-      })();
-    </script>
-  </body>
+
+        document.getElementById("obtain-new-token").addEventListener(
+          "click",
+          function () {
+            $.ajax({
+              url: "/refresh_token",
+              data: {
+                refresh_token: refresh_token,
+              },
+            }).done(function (data) {
+              access_token = data.access_token;
+              oauthPlaceholder.innerHTML = oauthTemplate({
+                access_token: access_token,
+                refresh_token: refresh_token,
+              });
+            });
+          },
+          false
+        );
+      }
+    })();
+  </script>
 </html>
