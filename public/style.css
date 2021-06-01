@@ -1,0 +1,222 @@
+body, html {
+  background-color: #F9F6EF;
+  margin: 0;
+  padding: 0;
+  overflow: hidden
+}
+
+
+.is-reward {
+  height: 100vh;
+  position: relative;
+  background-color: #F9F6EF;
+}
+
+.is-footer {
+  position: absolute;
+  bottom: 5%;
+  color: black;
+  font-size: 13px;
+  text-align: center;
+    width: 100%;
+}
+
+.is-footer-landing {
+  position: absolute;
+  bottom: 5%;
+  left: 10px;
+  color: black;
+  font-size: 13px;
+  text-align: left;
+    width: 100%;
+}
+
+ .is-footer-landing-mobile {
+  position: absolute;
+  bottom: 5%;
+  color: white;
+  font-size: 13px;
+  text-align: center;
+    width: 100%;
+}
+
+.is-cta {
+  position: absolute;
+  bottom: 45%;
+  margin-left: -50%;
+}
+
+ .is-cta-touch {
+   position: absolute;
+   bottom: 40%;
+ }
+
+ .is-logo-touch {
+   position: absolute;
+   top: 0px
+ }
+
+ .is-newsletter {
+  position: absolute;
+  left: 13%;
+  bottom: 35%;
+}
+
+.is-newsletter-small {
+  position: absolute;
+  left: 9%;
+  bottom: 25%;
+}
+
+.is-newsletter-touch {
+  position: absolute;
+  left: 10%;
+  bottom: 25%;
+}
+
+a, a:hover, a:visited, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+.img-reward {
+  max-width: 80%;
+  height: auto;
+}
+
+.is-centered {
+  margin: 0;
+   position: absolute;
+   top: 40%;
+   left: 50%;
+   margin-right: -50%;
+   transform: translate(-50%, -50%);
+}
+
+.is-fifty-percent {
+  max-width: 50%;
+  height: auto;
+}
+
+
+.has-image { 
+ position: -webkit-sticky;
+ position: sticky;
+ top: 0px;
+ display: block;
+ min-height: 100vh;
+ min-width: 100%;
+ -webkit-align-self: flex-start;
+ -ms-flex-item-align: start;
+ align-self: flex-start;
+ -webkit-box-flex: 0;
+ -webkit-flex: 0 auto;
+ -ms-flex: 0 auto;
+ flex: 0 auto;
+ background-image: url('images/landing-frah-pic-desktop.jpg');
+ background-position: 50% 50%;
+ background-size: cover;
+ -o-object-fit: cover;
+ object-fit: cover;
+}
+
+input[type=checkbox] {
+   transform: scale(2);
+}
+
+
+
+label.is-checkbox {
+ background: #3273dc;
+ border: 1px solid transparent;
+ color: white;
+ text-align: center;
+ white-space: nowrap;
+ display: inline-flex;
+ justify-content: center;
+ padding: calc(0.375em - 1px) 0.75em;
+ border-radius: 2px;
+ cursor: pointer;
+ -webkit-user-select: none;
+ -moz-user-select: none;
+ -ms-user-select: none;
+ user-select: none;
+}
+
+
+label.is-checkbox.is-frah {
+ background: lightgrey;
+ color: black;
+}
+
+label.is-checkbox .checkmark {
+ color: transparent;
+ position: relative;
+}
+
+label.is-checkbox .checkmark i {
+ z-index: 1;
+}
+
+label.is-checkbox .checkmark:before {
+ content: "";
+ position: absolute;
+ right: 0;
+ left: 0;
+ top: 0;
+ bottom: 0;
+ z-index: 0;
+ border-radius: 2px;
+ background: rgba(54, 54, 54, 0.3);
+ border: 1px solid rgba(54, 54, 54, 0.2);
+}
+
+label.is-checkbox input[type=checkbox] {
+ position: absolute;
+ visibility: hidden;
+ cursor: pointer;
+}
+label.is-checkbox input[type=checkbox]:checked ~ .checkmark {
+ color: inherit;
+}
+
+label.is-checkbox:hover {
+ box-shadow: inset 0px 0px 9999px rgba(0, 0, 0, 0.05);
+}
+
+label.is-checkbox:active {
+ box-shadow: inset 0px 0px 9999px rgba(0, 0, 0, 0.1);
+}
+
+label.is-checkbox.is-medium {
+ font-size: 1.25rem;
+}
+
+label.is-checkbox.is-small {
+ font-size: 1rem;
+}
+
+label.is-checkbox.is-touch {
+ font-size: 0.75rem !important;
+}
+
+label.is-checkbox .icon, label.is-checkbox .icon.is-small, label.is-checkbox .icon.is-medium, label.is-checkbox .icon.is-large {
+ height: 1.5em;
+ width: 1.5em;
+ margin-left: -0.35em;
+ margin-right: 0.35em;
+}
+
+label.is-checkbox .icon:first-child:not(:last-child) {
+ margin-right: 0.1875em;
+ margin-left: calc(-01.375em - 1px);
+}
+
+label.is-checkbox .icon:last-child:not(:first-child) {
+ margin-left: 0.1875em;
+ margin-right: calc(-0.375em - 1px);
+}
+
+label.is-checkbox .icon:first-child:last-child {
+ margin-left: calc(-0.575em - 1px);
+}

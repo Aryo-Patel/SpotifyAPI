@@ -3,41 +3,72 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BANZAI - FRAH QUINTALE</title>
+    <title>BANZAI LATO ARANCIO - FRAH QUINTALE</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <link rel="stylesheet" href="style-custom.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+    <link rel="stylesheet" href="style.css">    
   </head>
   <body>
-     <div class="columns is-gapless full-height is-hidden-touch has-text-centered">
-  		<div class="column is-half is-greyish imgSwap" style="display: flex; flex-direction: column;">
-          <img src="images/banzai-logo-desktop.png">
-          <img src="images/cta-desktop.png" class="img1" style="position: absolute; bottom: 45%; max-width: 50%;">
-          <a href="/login">
-            <img src="images/cta-desktop-hover.png" class="img2" style="position: absolute; bottom: 45%; max-width: 50%;">
-          </a>
-          <p style="margin-top: auto;">
-            <a target="_blank" href="toc.html">Terms and Conditions</a> | <a target="_blank" href="privacy-policy.html">Privacy Policy</a>
-            <br>
-          </p>
-      </div>
-  		<div class="column is-half">
-        <img src="images/landing-frah-pic-desktop.jpg" class="has-image">
-  		</div>
-		</div>
-
-    <div class="columns is-gapless full-height is-hidden-desktop">
-      <div class="column" style="display: flex; flex-direction: column;">
-        <img src="images/landing-frah-pic-desktop.jpg" class="has-image">
-        <img src="images/banzai-logo-mobile.png" style="position: absolute; top: 0px">
+    <div class="columns is-gapless is-hidden-mobile">
+      <div class="column is-half">
+        <img src="images/banzai-logo-desktop.png">
         <a href="/login">
-          <img src="images/cta-mobile.png" class="img1" style="position: absolute; bottom: 40%">
+          <img class="is-cta is-fifty-percent" src="images/cta-desktop.png">
         </a>
-        <p style="position: absolute; bottom: 5%; color: white; font-size: 13px; text-align: center;
-   width: 100%;">
-          <a target="_blank" href="toc.html">Terms and Conditions</a> | <a target="_blank" href="privacy-policy.html">Privacy Policy</a>
-        </p>
+        <div>
+          <p class="is-footer-landing">
+            <a href="terms-and-conditions.html">Terms and Conditions</a> | <a href="privacy-policy.html">Privacy Policy</a>
+          </p>
+        </div>
+          <span class="control is-newsletter is-hidden-mobile is-hidden-tablet-only is-hidden-desktop-only">
+            <label class="is-checkbox is-medium is-frah">
+              <input id="mycheckbox" type="checkbox">
+              <span  class="icon is-small checkmark">
+                <i class="fa fa-check"></i>
+              </span>
+              <span>Iscriviti per ricevere news su Frah Quintale</span>
+            </label>
+          </span>
+
+          <span class="control is-newsletter-small is-hidden-widescreen">
+            <label class="is-checkbox is-small is-frah">
+              <input id="mycheckbox" type="checkbox">
+              <span  class="icon is-small checkmark">
+                <i class="fa fa-check"></i>
+              </span>
+              <span>Iscriviti per ricevere news su Frah Quintale</span>
+            </label>
+          </span>
+      </div>
+      <div class="column">
+        <img class="has-image" src="images/landing-frah-pic-desktop.jpg">
       </div>
     </div>
+
+    <div class="columns is-gapless is-hidden-tablet-only is-hidden-desktop">
+      <div class="column">
+        <img class="has-image" src="images/landing-frah-pic-desktop.jpg">
+        <img class="is-logo-touch" src="images/banzai-logo-mobile.png">
+        <a href="/login">
+          <img class="is-cta-touch" src="images/cta-mobile.png">
+        </a>
+        <div>
+          <p class="is-footer-landing-mobile">
+            <a href="terms-and-conditions.html">Terms and Conditions</a> | <a href="privacy-policy.html">Privacy Policy</a>
+          </p>
+        </div>
+        <span class="control is-newsletter-touch">
+            <label class="is-checkbox is-tuoch is-frah">
+              <input id="mycheckbox" type="checkbox">
+              <span  class="icon is-small checkmark">
+                <i class="fa fa-check"></i>
+              </span>
+              <span>Iscriviti per ricevere news su Frah</span>
+            </label>
+          </span>
+      </div>
+    </div>
+
   </body>
   </script>
    <!---
