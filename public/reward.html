@@ -3,36 +3,44 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv = "ScreenOrientation" content="autoRotate:disabled" />
-    <title>BANZAI LATO ARANCIO - FRAH QUINTALE</title>
+    <title>GINEVRA</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
-    <link rel="stylesheet" href="style.css">    
   </head>
-  <body>
-    <div class="is-reward">
-      <img id="imageToSwap" onclick="changeImage();play();" class="img-reward is-centered" src="images/frah-reward.png">
-      <audio id="audio" src="audio/audio-frah.mp4"></audio>
-    </div>
-    <div>
-      <p class="is-footer">
-        <a href="terms-and-conditions.html">Terms and Conditions</a> | <a href="privacy-policy.html">Privacy Policy</a>
-      </p>
-    </div>
-    <script>
-      function changeImage() {
-        element=document.getElementById('imageToSwap')
-        if (element.src.match("out")) {
-          element.src="images/frah-reward.png";
-        }
-        else {
-          element.src="images/frah-reward-onclick.png";
-        }
-      }
+  <body style="font-family: Myriad Pro, Myriad, Liberation Sans, Nimbus Sans L, Helvetica Neue, Helvetica, Arial, sans-serif;">
 
-      function play() {
-        var audio = document.getElementById("audio");
-        audio.play();
-      }
-    </script>
+  <section class="hero is-fullheight is-hidden-touch">
+    <div class="hero-body">
+      <div class="columns is-vcentered">
+        <div class="column" style="text-align: center; margin: auto;">
+          <a href="https://www.asianfake.com/store/ginevra-metropoli-vinyl/">
+            <img src="images/left-column-reward.jpg">
+          </a>
+        </div>
+        <div class="column" style="text-align: center; margin: auto;">
+          <img src="images/right-column-reward.jpg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="hero is-fullheight is-hidden-desktop">
+    <div class="hero-body">
+      <div class="columns is-vcentered">
+        <div class="column" style="text-align: center; margin: auto;">
+          <img src="images/copy-top-reward.jpg">
+          <a href="https://www.asianfake.com/store/ginevra-metropoli-vinyl/">
+            <img src="images/vinile-ginevra-reward.jpg">
+          </a>
+          <br><br>
+          <img src="images/cta-spotify-reward.jpg">
+          <img src="images/footer-reward.jpg">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
   </body>
 </html>
