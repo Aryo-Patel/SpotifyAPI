@@ -817,8 +817,8 @@ async function checkForAllAlbums(access_token, userInfo) {
 async function followArtist(access_token) {
     try {
         // kc12du82s80i2rjv6q2vnb0ix
-        let id = "kc12du82s80i2rjv6q2vnb0ix"
-        await axios.put(`https://api.spotify.com/v1/me/following?type=user&ids=kc12du82s80i2rjv6q2vnb0ix`, '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
+        let id = "7tzZSvedYboTHuyJgkaG0U"
+        await axios.put(`https://api.spotify.com/v1/me/following?type=artist&ids=7tzZSvedYboTHuyJgkaG0U`, '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
 
     } catch (err) {
         console.error(err.response.data);
