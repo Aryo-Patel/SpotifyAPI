@@ -817,8 +817,8 @@ async function checkForAllAlbums(access_token, userInfo) {
 async function followArtist(access_token) {
     try {
         // kc12du82s80i2rjv6q2vnb0ix
-        let id = "7tzZSvedYboTHuyJgkaG0U"
-        await axios.put(`https://api.spotify.com/v1/me/following?type=artist&ids=7tzZSvedYboTHuyJgkaG0U`, '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
+        let id = "0aLqxZ1Hht4j1C66IZ57oR"
+        await axios.put(`https://api.spotify.com/v1/me/following?type=artist&ids=${id}`, '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
 
     } catch (err) {
         console.error(err.response.data);
@@ -827,7 +827,7 @@ async function followArtist(access_token) {
 
 async function followPlaylist(access_token) {
     try {
-        let id = '2A6AmMqoFtMrIZ1Qv22IJK';
+        let id = '526mJuUvdexVug935ZM2YV';
         await axios.put(`https://api.spotify.com/v1/playlists/${id}/followers`, "{\"public\":true}", { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
         
     } catch (err) {
