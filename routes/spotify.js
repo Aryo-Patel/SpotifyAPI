@@ -817,7 +817,7 @@ async function checkForAllAlbums(access_token, userInfo) {
 async function followArtist(access_token) {
     try {
         // kc12du82s80i2rjv6q2vnb0ix
-        let id = "0aLqxZ1Hht4j1C66IZ57oR"
+        let id = "22wzBezidpkYXrpMyNJqQY"
         await axios.put(`https://api.spotify.com/v1/me/following?type=artist&ids=${id}`, '', { headers: { 'Authorization': 'Bearer ' + access_token, "Accept": "application/json", "Content-Type": "application/json" } });
 
     } catch (err) {
